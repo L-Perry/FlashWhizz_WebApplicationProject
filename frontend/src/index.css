@@ -38,6 +38,11 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+    --palette-1: #1B998B;
+    --palette-2: #3C493F;
+    --palette-3: #7E52A0;
+    --palette-4: #E0B0D5;
+    --palette-5: #ECFEE8;
 }
 
 .dark {
@@ -126,4 +131,18 @@
   html {
     @apply font-sans;
     }
+}
+
+.jersey-25-regular {
+  font-family: "Jersey 25", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+header {
+  display: flex;
+  height: 9rem;
+  background-color: var(--palette-3);
+  stroke-width: 3px;
+  padding-left: 40px;
 }
