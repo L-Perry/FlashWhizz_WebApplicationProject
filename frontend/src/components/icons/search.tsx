@@ -11,7 +11,7 @@ const SearchIcon = ({
   flipHorizontal = false,
   flipVertical = false,
   padding = 0,
-  className,
+  className= "",
   ...props
 }) => {
   const transforms = [];
