@@ -39,6 +39,8 @@ export function TitleSubject({ title, subject, setTitle, setSubject }: TitleSubj
                 </InputGroup>
             </Field>
 
+
+            {/* In future we need to make this dynamic based on subjects we have in the database, but for now hardcoding is fine */}
             <Field className="flex-1">
                 <FieldLabel>Pick a subject</FieldLabel>
                 <Select onValueChange={(value) => setSubject(value)} value={subject}>

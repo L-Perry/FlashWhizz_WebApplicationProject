@@ -23,6 +23,16 @@ export function CreateQuizForm() {
         setQuestions([...questions, { question: "", answer: "" }]);
     };
 
+    const updateQuestion = (index: number, key: "question" | "answer", value: string) => {
+        const updatedQuestions = questions.map((q, i) => {
+            if (i === index) {
+                return { ...q, [key]: value };
+            }
+            return q;
+        });
+        setQuestions(updatedQuestions);
+    };
+
     const removeQuestion = (index: number) => {
         setQuestions(questions.filter((_, i) => i !== index));
     };
@@ -64,15 +74,7 @@ export function CreateQuizForm() {
                                 key={index}
                                 q={q}
                                 index={index}
-                                updateQuestion={(index, key, value) => {
-                                    const updatedQuestions = questions.map((q, i) => {
-                                        if (i === index) {
-                                            return { ...q, [key]: value };
-                                        }
-                                        return q;
-                                    });
-                                    setQuestions(updatedQuestions);
-                                }}
+                                updateQuestion={updateQuestion}
                                 removeQuestion={removeQuestion}
                             />
                         ))}
@@ -91,7 +93,7 @@ export function CreateQuizForm() {
 
             <CardFooter className="flex justify-center">
                 <Button
-                    className="bg-[#E0B0D5] text-black px-4 py-2 rounded-md"
+                    className="bg-[#E0B0D5] text-black px-4 py-2 rounded-md hover:bg-[#E0B0D5]/60"
                     onClick={createQuiz}
                 >
                     Create Quiz
