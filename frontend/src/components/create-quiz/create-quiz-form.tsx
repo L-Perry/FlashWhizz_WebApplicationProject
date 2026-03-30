@@ -53,7 +53,7 @@ export function CreateQuizForm() {
     };
 
     return (
-        <Card className="max-w-2xl w-full bg-[#ECFEE8]">
+        <Card className="max-w-4xl w-full bg-[#ECFEE8] max-h-[70vh] overflow-y-auto">
             <CardHeader className="border-b">
                 <TitleSubject
                     title={title}
