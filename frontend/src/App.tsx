@@ -6,12 +6,15 @@ import CreateQuiz from './pages/CreateQuiz';
 import ViewQuiz from './pages/ViewQuiz';
 import StudyMethod from './pages/StudyMethod';
 import Profile from './pages/Profile';
+import { Navbar } from "@/components/navbar";
+
 
 function App() {
 
   return (
     <>
       <Header />
+      <Navbar />
       <Routes>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/create-quiz" element={<CreateQuiz />} />
