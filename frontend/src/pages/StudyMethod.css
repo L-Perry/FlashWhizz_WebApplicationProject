@@ -1,0 +1,28 @@
+.StudyMethodTitle {
+    display: flex;
+    justify-content: space-between;
+    font-size: 100px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.StudyMethodTitle button {
+    cursor: pointer;
+}
+
+.OptionBtn {
+    width: 350px;
+    height: 350px;
+    border-radius: 100%;
+    margin: 100px;
+    font-size: 70px;
+    background: linear-gradient(to bottom, #2B907B, #bfd1bb);
+    position: absolute;
+    cursor: pointer;
+}
+
+.OptionsContainer {
+    position: relative;
+    margin: 0 auto;
+    width: 1200px;
+}
