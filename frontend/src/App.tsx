@@ -1,7 +1,5 @@
-import { useState } from 'react'
-import { Label } from "@/components/ui/label"
 import Header from "@/components/Header";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import CreateQuiz from './pages/CreateQuiz';
 import ViewQuiz from './pages/ViewQuiz';
 import StudyMethod from './pages/StudyMethod';

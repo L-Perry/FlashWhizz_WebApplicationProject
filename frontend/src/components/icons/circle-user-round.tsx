@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CircleUserRoundIcon = ({
   size = 24,
   color = '#f314ff',
