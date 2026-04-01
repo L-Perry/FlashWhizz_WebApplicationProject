@@ -1,7 +1,9 @@
+import { CreateQuizForm } from "@/components/create-quiz/create-quiz-form";
+
 export default function CreateQuiz() {
     return (
-        <div>
-            <h1>Create Quiz Page</h1>
+        <div className="flex justify-center items-center mt-10">
+            <CreateQuizForm />
         </div>
     );
 }
