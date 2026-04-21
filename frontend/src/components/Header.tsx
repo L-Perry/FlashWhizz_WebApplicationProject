@@ -1,5 +1,4 @@
-import SearchIcon from "./icons/search";
-import CircleUserRoundIcon from "./icons/circle-user-round";
+import { SearchIcon, CircleUserRoundIcon } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
