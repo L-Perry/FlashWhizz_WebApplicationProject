@@ -12,6 +12,7 @@ Backend starter for a React application using **Express**, **TypeScript**, and t
 
 ## How to start
 
+Copy .env.example and remove .example from the name
 - `cd backend`
 - `npm install`
 Open Docker on your computer
