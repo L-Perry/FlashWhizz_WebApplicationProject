@@ -1,0 +1,37 @@
+{
+  "name": "typesecript-express-backend",
+  "version": "1.0.0",
+  "description": "Express + TypeScript backend using MVC pattern",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"No tests configured\"",
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElliotZorn/typesecript-express-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ElliotZorn/typesecript-express-backend/issues"
+  },
+  "homepage": "https://github.com/ElliotZorn/typesecript-express-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.4.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^6.0.3"
+  }
+}

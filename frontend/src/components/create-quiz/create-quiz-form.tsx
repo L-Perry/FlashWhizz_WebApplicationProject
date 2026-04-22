@@ -37,19 +37,47 @@ export function CreateQuizForm() {
         setQuestions(questions.filter((_, i) => i !== index));
     };
 
-    // Send to backend when we have it up
-    const createQuiz = () => {
-        if (!title || !subject) {
-            alert("Title and subject are required");
-            return;
-        }
+    const createQuiz = async () => {
+        try {
+            if (!title || !subject) {
+                alert("Title and subject are required");
+                return;
+            }
 
-        if (questions.some(q => !q.question || !q.answer)) {
-            alert("All questions must have a question and answer");
-            return;
-        }
+            if (questions.some(q => !q.question || !q.answer)) {
+                alert("All questions must have a question and answer");
+                return;
+            }
 
-        console.log("Quiz Created:", { title, subject, questions });
+            const res = await fetch("http://localhost:3000/api/create-quiz", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title,
+                    subject,
+                    questions,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || "Something went wrong");
+            }
+
+            console.log("Quiz created:", data);
+
+            setTitle("");
+            setSubject("");
+            setQuestions([{ question: "", answer: "" }]);
+
+            alert("Quiz created successfully!");
+        } catch (error: any) {
+            console.error(error);
+            alert(error.message);
+        }
     };
 
     return (
