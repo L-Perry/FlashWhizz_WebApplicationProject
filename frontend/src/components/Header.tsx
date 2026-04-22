@@ -1,54 +1,43 @@
-import { SearchIcon, CircleUserRoundIcon } from "lucide-react";
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import type { ComponentProps, FC } from "react";
+import { CircleUserRoundIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
-const Header: React.FC = () => {
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
+type HeaderButtonProps = Omit<ComponentProps<typeof Button>, "className" | "size">;
 
-  const handleSearch = () => {
-    if (!query.trim()) return;
+const HeaderButton: FC<HeaderButtonProps> = ({ children, ...props }) => (
+  <Button
+    size="lg"
+    className="jersey-25-regular text-xl bg-palette-4 text-black font-bold hover:bg-pink-200 hover:cursor-pointer border-palette-2 rounded-full p-6 w-40"
+    {...props}
+  >
+    {children}
+  </Button>
+);
 
-    const path = `quiz/${query}`;
-    navigate(path);
-  };
-
+const Header: FC = () => {
   return (
-    <header id="header" className="flex items-center justify-between px-4 py-2">
+    <header id="header" className="flex items-center justify-between px-4 py-0 h-auto bg-palette-3">
       <h1
-        className="jersey-25-regular"
+        className="jersey-25-regular leading-none"
         style={{ fontSize: '6rem', color: 'var(--palette-1)', WebkitTextStrokeWidth: '0.15rem', WebkitTextStrokeColor: 'black' }}>
         FlashWhizz
       </h1>
       <div id="navigation" className="flex items-center gap-4">
-        <div id="search" className="relative min-w-50">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch();
-            }}
-            placeholder="Search quizzes..."
-            className="h-60px w-full rounded-full bg-white px-4 py-2 pr-12 text-black focus:outline-none focus:ring-1 focus:ring-primary"
-            style={{
-              border: "solid",
-              borderWidth: "5px",
-              borderColor: "var(--palette-2)",
-            }}
-          />
-
-          <SearchIcon
-            size={40}
-            color="var(--palette-4)"
-            strokeWidth={2}
-            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-            onClick={handleSearch}
-          />
+        <div className="flex items-center gap-2">
+          <Link to="/create-quiz">
+            <HeaderButton>Create Quiz</HeaderButton>
+          </Link>
+          <Link to="/quiz/0">
+            <HeaderButton>View Quiz</HeaderButton>
+          </Link>
+          <Link to="/study-method">
+            <HeaderButton>Study Methods</HeaderButton>
+          </Link>
         </div>
         <Link to="/profile">
           <CircleUserRoundIcon
-            size={96}
+            size={80}
             color="var(--palette-4)"
             strokeWidth={1.5}
             className="cursor-pointer"
