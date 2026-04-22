@@ -8,7 +8,18 @@ type HeaderButtonProps = Omit<ComponentProps<typeof Button>, "className" | "size
 const HeaderButton: FC<HeaderButtonProps> = ({ children, ...props }) => (
   <Button
     size="lg"
-    className="jersey-25-regular text-xl bg-palette-4 text-black font-bold hover:bg-pink-200 hover:cursor-pointer border-palette-2 rounded-full p-6 w-40"
+    className="
+    jersey-25-regular
+    bg-palette-4
+    hover:bg-pink-200
+    text-xl
+    text-black 
+    font-bold
+    hover:cursor-pointer
+    border-palette-2
+    rounded-full
+    p-6
+    w-[10em]"
     {...props}
   >
     {children}
@@ -17,7 +28,7 @@ const HeaderButton: FC<HeaderButtonProps> = ({ children, ...props }) => (
 
 const Header: FC = () => {
   return (
-    <header id="header" className="flex items-center justify-between px-4 py-0 h-auto bg-palette-3">
+    <header id="header" className="flex items-center justify-between px-4 py-0 w-full h-auto bg-palette-3">
       <h1
         className="jersey-25-regular leading-none"
         style={{ fontSize: '6rem', color: 'var(--palette-1)', WebkitTextStrokeWidth: '0.15rem', WebkitTextStrokeColor: 'black' }}>
