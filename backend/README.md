@@ -12,6 +12,9 @@ Backend starter for a React application using **Express**, **TypeScript**, and t
 
 ## How to start
 
+- `cd backend`
+- `npm install`
+Open Docker on your computer
 - `docker compose up --build`
 
 
