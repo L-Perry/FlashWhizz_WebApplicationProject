@@ -137,6 +137,11 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+    --color-palette-1: var(--palette-1);
+    --color-palette-2: var(--palette-2);
+    --color-palette-3: var(--palette-3);
+    --color-palette-4: var(--palette-4);
+    --color-palette-5: var(--palette-5);
 }
 
 @layer base {
@@ -157,10 +162,3 @@
   font-style: normal;
 }
 
-header {
-  display: flex;
-  height: 9rem;
-  background-color: var(--palette-3);
-  stroke-width: 3px;
-  padding-left: 40px;
-}
