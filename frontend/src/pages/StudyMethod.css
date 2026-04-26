@@ -26,3 +26,9 @@
     margin: 0 auto;
     width: 1200px;
 }
+
+.OptionBtn.disabled {
+    filter: grayscale(100%);
+    cursor: not-allowed;
+    pointer-events: none;
+}
