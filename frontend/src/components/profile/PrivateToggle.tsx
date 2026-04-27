@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent } from "react"
+import React, { useState, type KeyboardEvent } from "react"
 import { ToggleLeft, ToggleRight } from "lucide-react"
 
 type PrivateToggleProps = {
