@@ -121,14 +121,12 @@ export default function ViewQuiz() {
             </Button>
           </div>
 
-          {/* CENTER */}
           <div className="flex-1 flex justify-center">
             <p className="text-center font-semibold">
               {quizTitle}
             </p>
           </div>
 
-          {/* RIGHT */}
           <div className="flex-1 flex justify-end gap-2">
             <ActionButton
               icon={Pencil}
@@ -206,7 +204,6 @@ export default function ViewQuiz() {
 
 function FlashcardCell({
   value,
-  field,
   mode,
   onChange,
   onDelete,
