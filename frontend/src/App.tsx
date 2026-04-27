@@ -5,6 +5,7 @@ import ViewQuiz from './pages/ViewQuiz';
 import StudyMethod from './pages/StudyMethod';
 import Profile from './pages/Profile';
 import Multichoice from "./pages/Multichoice";
+import SubjectQuizzesPage from "./pages/ListQuiz";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/quiz/:id" element={<ViewQuiz />} />
         <Route path="/multichoice/:id" element={<Multichoice />} />
+        <Route path="/quizes/:subject" element={<SubjectQuizzesPage />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </>
