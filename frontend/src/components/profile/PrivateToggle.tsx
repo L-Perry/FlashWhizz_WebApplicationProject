@@ -3,19 +3,22 @@ import { ToggleLeft, ToggleRight } from "lucide-react"
 
 type PrivateToggleProps = {
   variant?: "left" | "right"
+  value?: boolean
   onChange?: (isPrivate: boolean) => void
+  size?: "sm" | "md"
 }
 
-export default function PrivateToggle({ variant = "left", onChange }: PrivateToggleProps) {
-  const [isPrivate, setIsPrivate] = useState(variant === "left")
+export default function PrivateToggle({ variant = "left", value, onChange, size = "md" }: PrivateToggleProps) {
+  const [internal, setInternal] = useState(variant === "left")
+  const isPrivate = value ?? internal
   const ToggleIcon = isPrivate ? ToggleLeft : ToggleRight
 
   function toggle() {
-    setIsPrivate((prev) => {
-      const next = !prev
-      onChange?.(next)
-      return next
-    })
+    const next = !isPrivate
+    if (value === undefined) {
+      setInternal(next)
+    }
+    onChange?.(next)
   }
 
   function handleKey(e: KeyboardEvent<HTMLButtonElement>) {
@@ -25,6 +28,9 @@ export default function PrivateToggle({ variant = "left", onChange }: PrivateTog
     }
   }
 
+  const iconSize = size === "sm" ? "h-7 w-7" : "h-14 w-14"
+  const textSize = size === "sm" ? "text-sm" : "text-xl"
+
   return (
     <button
       type="button"
@@ -32,10 +38,10 @@ export default function PrivateToggle({ variant = "left", onChange }: PrivateTog
       aria-checked={isPrivate}
       onClick={toggle}
       onKeyDown={handleKey}
-      className="jersey-25-regular text-xl flex w-fit items-center gap-2 bg-transparent cursor-pointer select-none"
+      className={`jersey-25-regular ${textSize} flex w-fit items-center gap-2 bg-transparent cursor-pointer select-none`}
     >
       <span className={"font-medium " + (isPrivate ? "" : "opacity-50")}>Private</span>
-      <ToggleIcon className="h-14 w-14" aria-hidden />
+      <ToggleIcon className={iconSize} aria-hidden />
       <span className={"font-medium " + (isPrivate ? "opacity-50" : "")}>
         Public
       </span>

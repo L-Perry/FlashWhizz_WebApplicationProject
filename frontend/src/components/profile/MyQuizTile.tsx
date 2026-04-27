@@ -1,6 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { MyQuizTileProgressBadge } from "./MyQuizTileProgressBadge"
+import PrivateToggle from "./PrivateToggle"
 
 type BadgeVariant = "mastered" | "good" | "practice" | "suck"
 
@@ -10,6 +11,9 @@ type MyQuizTileProps = {
   subtitle?: React.ReactNode
   badge?: BadgeVariant
   className?: string
+  quizId?: string
+  isPrivate?: boolean
+  onPrivacyChange?: (next: boolean) => void
 }
 
 export default function MyQuizTile({
@@ -18,6 +22,9 @@ export default function MyQuizTile({
   subtitle,
   badge,
   className,
+  quizId,
+  isPrivate,
+  onPrivacyChange,
 }: MyQuizTileProps) {
   return (
     <div
@@ -36,6 +43,14 @@ export default function MyQuizTile({
           <div className="text-xs text-muted-foreground">{subtitle}</div>
         ) : null}
       </div>
+
+      {quizId !== undefined && isPrivate !== undefined ? (
+        <PrivateToggle
+          size="sm"
+          value={isPrivate}
+          onChange={(next) => onPrivacyChange?.(next)}
+        />
+      ) : null}
 
       {badge ? <MyQuizTileProgressBadge variant={badge} /> : null}
     </div>

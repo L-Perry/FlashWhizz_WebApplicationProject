@@ -1,22 +1,79 @@
-import React from "react";
 import styles from "./ProfileStyles.module.css";
 import MyQuizTile from "./MyQuizTile";
-import { Toilet, Croissant, SquareCode, Origami } from "lucide-react";
-import PrivateToggle from "./PrivateToggle";
+import { Toilet, Croissant, SquareCode, Origami, BookOpen } from "lucide-react";
+import type { ProfileQuiz } from "@/pages/Profile";
 
-export default function MyQuizzes() {
+const API_BASE = "http://localhost:3000/api";
+
+// Icon registry — extend this as new selectable icons are added.
+const ICON_MAP: Record<string, React.ReactNode> = {
+  Toilet: <Toilet />,
+  Croissant: <Croissant />,
+  SquareCode: <SquareCode />,
+  Origami: <Origami />,
+  BookOpen: <BookOpen />,
+};
+
+function resolveIcon(name: string): React.ReactNode {
+  return ICON_MAP[name] ?? <BookOpen />;
+}
+
+type BadgeVariant = "mastered" | "good" | "practice" | "suck";
+const BADGE_VARIANTS: BadgeVariant[] = ["mastered", "good", "practice", "suck"];
+function resolveBadge(name: string): BadgeVariant {
+  return (BADGE_VARIANTS as string[]).includes(name)
+    ? (name as BadgeVariant)
+    : "practice";
+}
+
+type MyQuizzesProps = {
+  quizzes: ProfileQuiz[];
+  onChanged: () => void;
+};
+
+export default function MyQuizzes({ quizzes, onChanged }: MyQuizzesProps) {
+  async function setQuizPrivacy(quizId: string, isPrivate: boolean) {
+    try {
+      const res = await fetch(
+        `${API_BASE}/profile/quizzes/${quizId}/privacy`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ isPrivate }),
+        }
+      );
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error ?? `Update failed: ${res.status}`);
+      }
+      onChanged();
+    } catch (err) {
+      console.error("Failed to update quiz privacy:", err);
+    }
+  }
 
   return (
     <div id="myquizzes-section" className={styles.myQuizzes}>
-      <div id="top-row" className="flex justify-space-between items-center w-full">
+      <div id="top-row" className="flex items-center w-full">
         <h2 className="text-2xl jersey-25-regular font-semibold mb-0 w-full">My Quizzes</h2>
-        <PrivateToggle variant="left" />
       </div>
       <div id="quizzes-created" className="flex flex-col gap-3 w-full">
-        <MyQuizTile icon={<Toilet />} title={"Feats of the Roman Empire"} subtitle={"22 Questions"} badge={"mastered"} />
-        <MyQuizTile icon={<Croissant />} title={"French Vocab Chapter 3"} subtitle={"30 Questions"} badge={"good"} />
-        <MyQuizTile icon={<SquareCode />} title={"Javascript Objects and Methods"} subtitle={"4185 Questions"} badge={"suck"} />
-        <MyQuizTile icon={<Origami />} title={"Names of Famous Cartoon Ducks"} subtitle={"3 Questions"} badge={"practice"} />
+        {quizzes.length === 0 ? (
+          <p className="text-sm opacity-70 mt-2">No quizzes yet.</p>
+        ) : (
+          quizzes.map((q) => (
+            <MyQuizTile
+              key={q._id}
+              icon={resolveIcon(q.icon)}
+              title={q.title}
+              subtitle={`${q.questions.length} Questions`}
+              badge={resolveBadge(q.badge)}
+              quizId={q._id}
+              isPrivate={q.isPrivate}
+              onPrivacyChange={(next) => setQuizPrivacy(q._id, next)}
+            />
+          ))
+        )}
       </div>
     </div>
   );
