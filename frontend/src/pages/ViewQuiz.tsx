@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Flashcard = {
   id: string;
@@ -18,7 +17,6 @@ type Flashcard = {
   answer: string;
 };
 
-const demoQuizName = "Quiz";
 
 const pageShellClass =
   "min-h-[calc(100vh-9rem)] bg-[linear-gradient(180deg,var(--quiz-surface)_0%,#ffffff_18%,#ffffff_100%)] px-4 py-6 sm:px-6 lg:px-10";
@@ -39,12 +37,13 @@ type ViewMode = "view" | "edit" | "delete";
 
 export default function ViewQuiz() {
   const { id } = useParams<{ id: string }>();
-
+  const navigate = useNavigate()
+  const [quizTitle, setQuizTitle] = useState("Hello");
+  const [demoQuizName, setDemoQuizName] = useState("");
   const [mode, setMode] = useState<ViewMode>("view");
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ FETCH FROM DB
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
@@ -62,6 +61,8 @@ export default function ViewQuiz() {
             answer: card.answer,
           }))
         );
+        setDemoQuizName(data.subject || "Quiz Title");
+        setQuizTitle(data.title || "Quiz Title");
       } catch (err) {
         console.error(err);
         setFlashcards([]);
@@ -73,7 +74,6 @@ export default function ViewQuiz() {
     if (id) fetchQuiz();
   }, [id]);
 
-  // ✅ UPDATE LOCAL FIELD
   const setFieldValue = (
     flashcardId: string,
     field: "question" | "answer",
@@ -86,14 +86,12 @@ export default function ViewQuiz() {
     );
   };
 
-  // ✅ DELETE LOCAL CARD
   const removeFlashcard = (flashcardId: string) => {
     setFlashcards((prev) =>
       prev.filter((c) => c.id !== flashcardId)
     );
   };
 
-  // ✅ LOADING
   if (loading) {
     return (
       <main className={pageShellClass}>
@@ -109,40 +107,55 @@ export default function ViewQuiz() {
   return (
     <main className={pageShellClass}>
       <section className={frameClass}>
-        {/* HEADER */}
         <div className="border-b-[3px] border-[var(--palette-3)] bg-[var(--palette-3)] px-4 py-4 text-center text-white font-bold">
           {demoQuizName}
         </div>
 
-        {/* ACTIONS */}
         <div className="flex justify-between border-b-[3px] border-[var(--palette-3)] bg-[var(--palette-1)] px-4 py-4">
-          <Button className={controlChipClass}>
-            <Play className="size-5" />
-          </Button>
-
-          <div className="flex gap-2">
-            <Button onClick={() => setMode(mode === "edit" ? "view" : "edit")}>
-              <Pencil className="size-5" />
+          <div className="flex-1 flex justify-start">
+            <Button
+              className={controlChipClass}
+              onClick={() => navigate(`/multichoice/${id}`)}
+            >
+              <Play className="size-5" />
             </Button>
+          </div>
 
-            <Button>
-              <Share2 className="size-5" />
-            </Button>
+          {/* CENTER */}
+          <div className="flex-1 flex justify-center">
+            <p className="text-center font-semibold">
+              {quizTitle}
+            </p>
+          </div>
 
-            <Button onClick={() => setMode(mode === "delete" ? "view" : "delete")}>
-              <Trash2 className="size-5" />
-            </Button>
+          {/* RIGHT */}
+          <div className="flex-1 flex justify-end gap-2">
+            <ActionButton
+              icon={Pencil}
+              label="Edit"
+              onClick={() => setMode(mode === "edit" ? "view" : "edit")}
+            />
+
+
+            <ActionButton
+              icon={Share2}
+              label="Share"
+            />
+
+            <ActionButton
+              icon={Trash2}
+              label="Delete"
+              onClick={() => setMode(mode === "delete" ? "view" : "delete")}
+            />
           </div>
         </div>
 
-        {/* MODE */}
         <div className="border-b-[3px] border-[var(--palette-3)] px-4 py-2 text-sm">
           {mode === "edit" && "Edit mode"}
           {mode === "delete" && "Delete mode"}
           {mode === "view" && "View mode"}
         </div>
 
-        {/* FLASHCARDS */}
         {flashcards.length === 0 ? (
           <div className="p-10 text-center font-semibold">
             No flashcards found
@@ -182,7 +195,6 @@ export default function ViewQuiz() {
           </div>
         )}
 
-        {/* FOOTER */}
         <div className="flex justify-between border-t-[3px] border-[var(--palette-3)] px-4 py-3 text-sm">
           <span>Quiz ID: {id}</span>
           <span>{flashcards.length} cards</span>
@@ -192,7 +204,6 @@ export default function ViewQuiz() {
   );
 }
 
-// ✅ CELL COMPONENT (unchanged logic)
 function FlashcardCell({
   value,
   field,
@@ -223,5 +234,38 @@ function FlashcardCell({
         )}
       </Card>
     </div>
+  );
+}
+
+function ActionButton({
+  icon: Icon,
+  label,
+  wide = false,
+  destructive = false,
+  active = false,
+  onClick,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  wide?: boolean;
+  destructive?: boolean;
+  active?: boolean;
+  onClick?: () => void;
+}) {
+  return (
+    <Button
+      className={cn(
+        "h-12 rounded-[1.05rem] border-2 border-transparent px-4 text-base font-semibold shadow-[0_8px_18px_rgba(60,73,63,0.16)]",
+        wide ? "min-w-[5.75rem]" : "w-12 px-0",
+        destructive
+          ? "bg-[var(--quiz-action-danger)] text-[var(--quiz-action-danger-ink)] hover:bg-[var(--quiz-action-danger-hover)]"
+          : "bg-[var(--palette-4)] text-[var(--quiz-ink)] hover:bg-[var(--quiz-action-hover)]",
+        active && "ring-4 ring-white/65"
+      )}
+      aria-label={label}
+      onClick={onClick}
+    >
+      {wide ? label : <Icon className="size-5" />}
+    </Button>
   );
 }
