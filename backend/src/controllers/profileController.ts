@@ -6,7 +6,6 @@ import "../models/quizModel";
 const RECENT_ACTIVITY_LIMIT = 4;
 
 interface UpdateProfileBody {
-    username?: string;
     aboutMe?: string;
     favoriteSubjects?: string[];
 }
@@ -62,20 +61,12 @@ export const updateProfile = async (
     res: Response
 ) => {
     try {
-        const { username, aboutMe, favoriteSubjects } = req.body;
+        const { aboutMe, favoriteSubjects } = req.body;
 
-        if (
-            username === undefined &&
-            aboutMe === undefined &&
-            favoriteSubjects === undefined
-        ) {
+        if (aboutMe === undefined && favoriteSubjects === undefined) {
             return res.status(400).json({
-                error: "No editable fields provided. Allowed: username, aboutMe, favoriteSubjects.",
+                error: "No editable fields provided. Allowed: aboutMe, favoriteSubjects. (username is permanent.)",
             });
-        }
-
-        if (username !== undefined && (typeof username !== "string" || username.trim() === "")) {
-            return res.status(400).json({ error: "username must be a non-empty string" });
         }
 
         if (aboutMe !== undefined && typeof aboutMe !== "string") {
@@ -91,7 +82,6 @@ export const updateProfile = async (
         }
 
         const update: Record<string, unknown> = {};
-        if (username !== undefined) update.username = username.trim();
         if (aboutMe !== undefined) update.aboutMe = aboutMe;
         if (favoriteSubjects !== undefined) update.favoriteSubjects = favoriteSubjects;
 
