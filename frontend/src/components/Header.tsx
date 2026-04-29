@@ -96,6 +96,10 @@ const Header: FC = () => {
                   <SelectItem value="history">History</SelectItem>
                   <SelectItem value="geography">Geography</SelectItem>
                   <SelectItem value="literature">Literature</SelectItem>
+                  <SelectItem value="languages">Languages</SelectItem>
+                  <SelectItem value="entertainment">Entertainment</SelectItem>
+
+
                 </SelectGroup>
               </SelectContent>
             </Select>
